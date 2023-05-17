@@ -24,7 +24,9 @@ Route::get('/csrf-token', function () {
 });
 
 
-Route::get('/load-form', '\App\Http\Controllers\CognitoFormController@load');
+// Route::get('/load-form', '\App\Http\Controllers\CognitoFormController@load');
+
+Route::post('/load-form', [CognitoFormController::class, 'load']);
 
 
 

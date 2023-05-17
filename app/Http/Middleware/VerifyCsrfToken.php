@@ -12,6 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        '*/load-form?url=https://www.cognitoforms.com/Periscope5/ActiveTherapistInventory',
     ];
 }

@@ -9,9 +9,9 @@ class CognitoFormController extends Controller
 {
     public function load(Request $request)
     {
-        $url = 'https://www.cognitoforms.com/Periscope5/WeeklyTimesheet';
+        $url = $request->input('url');
         $formProps = $this->getFormDetails($url);
-        $prefillData = json_decode(urlencode($request->input('url')));
+        $prefillData = json_decode($request->query('params'));
 
         return Inertia::render('Test', [
             'formId' => $formProps['formId'],
@@ -31,7 +31,6 @@ class CognitoFormController extends Controller
     // Create a new DOMDocument instance
     $dom = new \DOMDocument();
    
-
     // Load the HTML content into the DOMDocument with options
     libxml_use_internal_errors(true);
     $dom->loadHTML($body, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
@@ -46,12 +45,9 @@ class CognitoFormController extends Controller
 
     // Iterate through the script tags in reverse order
     foreach ($scriptTags as $script) {
-        // Log the script tag for debugging
-        Log::info('Script Tag: ' . $dom->saveHTML($script));
     
         // Retrieve the script content using saveHTML and substring
         $scriptContent = substr($dom->saveHTML($script), strlen('<script'), -strlen('</script>'));
-        Log::info('Script Content: ' . $scriptContent);
     
         // Check if the script content contains 'data-form' and 'data-key'
         if (strpos($scriptContent, 'data-form') !== false && strpos($scriptContent, 'data-key') !== false) {
